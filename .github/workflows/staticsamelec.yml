@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions Électriques Complètes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Neutral grays with a subtle blue accent) -->
+    <!-- Application Structure Plan: A single-page layout featuring a sticky navigation header, a hero section with a primary CTA, and an multi-column interactive grid of service cards. Clicking a card dynamically displays detailed information below the grid, providing a clean, focused user experience. This structure avoids overwhelming the user with text and encourages exploration. The flow directs users towards a final contact section. -->
+    <!-- Visualization & Content Choices: Report Info: Six electrical services. Goal: Inform & Engage. Viz/Presentation: An interactive grid of cards, each with a Unicode icon, title, and brief text. Interaction: On-click event reveals detailed text for the selected service in a dedicated area, with the active card highlighted. Justification: This method is more engaging than a static list, encourages user interaction, and presents information in digestible chunks. Library/Method: Vanilla JS for interaction, Tailwind CSS for layout and styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .service-card.active {
+            border-color: #3b82f6; /* blue-500 */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        #service-detail-container {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex flex-col items-center">
+            <a href="#" class="mb-4">
+                <img src="https://098e7fe3f3.cbaul-cdnwnd.com/8b6a687d644d95aa34b37201dfb88828/200000053-55e4b55e4d/Carte%20de%20visite%201-5.webp?ph=098e7fe3f3" alt="Logo Samélec" class="h-80 w-auto">
+            </a>
+            <div class="hidden md:flex md:flex-row md:space-x-6 md:items-center">
+                <a href="#services" class="text-slate-600 hover:text-blue-600">Nos Services</a>
+                <a href="#contact" class="text-slate-600 hover:text-blue-600">Contact</a>
+                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Devis Gratuit</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+        
+        <section id="hero" class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-4">Solutions Électriques Complètes</h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">Sécurité et optimisation pour tous vos projets résidentiels et commerciaux. Samélec à votre service.</p>
+            <a href="#contact" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors">Demander un Devis</a>
+        </section>
+
+        <section id="services">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Explorez nos expertises</h2>
+                <p class="text-slate-600 mt-2">Cliquez sur un service pour en savoir plus.</p>
+            </div>
+
+            <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            </div>
+
+            <div id="service-detail-container" class="bg-white p-8 rounded-2xl shadow-lg min-h-[200px] opacity-0" style="display: none;">
+                <h3 id="service-detail-title" class="text-2xl font-bold text-slate-900 mb-4"></h3>
+                <p id="service-detail-text" class="text-slate-600 leading-relaxed"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact" class="bg-slate-800 text-white">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Prêt à démarrer votre projet ?</h2>
+            <p class="text-slate-300 max-w-2xl mx-auto mb-8">Contactez-nous dès aujourd'hui pour obtenir un devis personnalisé et sans engagement. Samélec est à votre écoute.</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 text-lg">
+                <span class="bg-slate-700 px-4 py-2 rounded-lg">📞 06 93 83 97 22</span>
+                <span class="bg-slate-700 px-4 py-2 rounded-lg">✉️ samelecreunion@gmail.com</span>
+            </div>
+            <p class="text-slate-400 mt-12 text-sm">&copy; 2025 Samélec. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        const servicesData = [
+            {
+                id: 'securite',
+                icon: '🔥',
+                title: 'Installation en Sécurité Incendie',
+                description: 'La protection des biens et des personnes est votre besoin ? Samélec met en place et déploie des systèmes de sécurité incendie conformes aux normes, garantissant une détection précoce et une prévention efficace des risques. Des solutions fiables et performantes pour résidences et structures recevant du public.'
+            },
+            {
+                id: 'renovation',
+                icon: '💡',
+                title: 'Installation Neuve et Rénovation',
+                description: 'Pour les projets neufs ou de rénovation, l\'électricien qualifié réalise des installations électriques sécurisées et modernisées. L\'exécution est méthodique, efficiente et strictement conforme aux réglementations techniques applicables.'
+            },
+            {
+                id: 'maintenance',
+                icon: '⚙️',
+                title: 'Maintenance et Dépannage',
+                description: 'En cas de dysfonctionnements ou de pannes électriques, l\'électricien intervient pour un diagnostic précis et trouve les solutions correctives. Nos programmes de maintenance préventive assurent la pérennité de vos installations et une tranquillité d\'esprit durable.'
+            },
+            {
+                id: 'portail',
+                icon: '🚪',
+                title: 'Pose de Portail Électrique',
+                description: 'L\'intégration d\'un portail électrique améliore notablement le confort d\'utilisation et la sécurisation des accès. Nous proposons des systèmes motorisés personnalisés, faciles d\'opération et s\'intégrant harmonieusement à l\'entrée de votre propriété.'
+            },
+            {
+                id: 'plans',
+                icon: '📏',
+                title: 'Plans et Schémas Électriques',
+                description: 'Recevez vos plans et schémas électriques, assurant une conception optimale d\'agencement sur l\'ensemble de vos projets.'
+            },
+            {
+                id: 'domotique',
+                icon: '📱',
+                title: 'Installation Domotique',
+                description: 'Transformez votre habitation en un environnement intelligent grâce à nos solutions domotiques avancées. Ces systèmes permettent un contrôle centralisé et intuitif des fonctions (éclairage, chauffage, volets, etc.), favorisant un confort accru et l\'optimisation des consommations énergétiques.'
+            },
+            {
+                id: 'economie',
+                icon: '💰',
+                title: 'Économie d\'Énergie',
+                description: 'Réduisez significativement vos factures d\'électricité grâce à nos solutions éco-énergétiques. Nous installons des équipements basse consommation, optimisons vos installations existantes et vous conseillons sur les meilleures pratiques pour une consommation maîtrisée et durable.'
+            },
+            {
+                id: 'securite-domestique',
+                icon: '🛡️',
+                title: 'Sécurité Domestique / Piscine et Alarme',
+                description: 'Protégez votre domicile et votre piscine avec nos systèmes de sécurité avancés. Nous installons des alarmes fiables, des capteurs de mouvement et des dispositifs de surveillance pour une tranquillité d\'esprit totale. Sécurisez votre environnement de vie contre les intrusions et les accidents.'
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const servicesGrid = document.getElementById('services-grid');
+            const detailContainer = document.getElementById('service-detail-container');
+            const detailTitle = document.getElementById('service-detail-title');
+            const detailText = document.getElementById('service-detail-text');
+
+            servicesData.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'service-card bg-white p-6 rounded-2xl shadow-md border-2 border-transparent cursor-pointer';
+                card.dataset.serviceId = service.id;
+                card.innerHTML = `
+                    <div class="text-4xl mb-4">${service.icon}</div>
+                    <h3 class="text-xl font-bold text-slate-900">${service.title}</h3>
+                `;
+                servicesGrid.appendChild(card);
+            });
+
+            servicesGrid.addEventListener('click', (e) => {
+                const clickedCard = e.target.closest('.service-card');
+                if (!clickedCard) return;
+
+                const serviceId = clickedCard.dataset.serviceId;
+                const service = servicesData.find(s => s.id === serviceId);
+
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                clickedCard.classList.add('active');
+
+                detailTitle.textContent = service.title;
+                detailText.textContent = service.description;
+                
+                if (detailContainer.style.display === 'none') {
+                    detailContainer.style.display = 'block';
+                    setTimeout(() => {
+                         detailContainer.style.opacity = '1';
+                    }, 10);
+                }
+                
+                detailContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+
+</body>
+</html>
